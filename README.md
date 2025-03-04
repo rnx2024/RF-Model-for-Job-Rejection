@@ -29,7 +29,7 @@ The data is preprocessed and fed into a Random Forest Regressor model to predict
 2. Install dependencies using requirements.txt
 ```pip install -r requirements.txt```
 
-3. Run the Python file ![Predict-Job-Rejections.py](https://github.com/rnx2024/Job-Rejection-Prediction/blob/main/RF_Predict_Job_Rejections.py)
+3. Run the Python file [!File](https://github.com/rnx2024/Job-Rejection-Prediction/blob/main/RF_Predict_Job_Rejections.py)
 
 As this is the first training for the Random Forest Model, it shows signs of overfitting. The graph below shows how the RF model played too much focus on one categorical variable: 
 ![Image](https://github.com/rnx2024/Job-Rejection-Prediction/blob/main/feature_importance_firstprediction.png)
