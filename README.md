@@ -43,7 +43,7 @@ To address the overfitting, the project intends to do the following approaches:
 
 2. Feature Selection:
 
--Remove irrelevant or less important features that do not contribute significantly to the model's predictions.
+- Remove irrelevant or less important features that do not contribute significantly to the model's predictions.
 
 3. Regularization:
 
