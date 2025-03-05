@@ -37,31 +37,45 @@ As this is the first training for the Random Forest Model, it shows signs of ove
 
 To address the overfitting, the project intends to do the following approaches: 
 
-
-1. Increase Data Volume:
-
-- Collect more training data to help the model learn a broader range of patterns.
-
-2. Feature Selection:
-
-- Remove irrelevant or less important features that do not contribute significantly to the model's predictions.
-
-3. Regularization:
+1. Regularization:
 
 - Experiment with different regularization parameters to find the optimal balance.
 
-4. Cross-Validation:
+2. Cross-Validation:
 
 - Use k-fold cross-validation to evaluate the model's performance on different subsets of the data.
 
-5. Simplify the Model:
+3. Simplify the Model:
 
 - Reduce the complexity of the model by decreasing the number of estimators or depth of trees in the Random Forest Regressor.
 
 - Experiment with different hyperparameters to find a simpler model that performs well.
 
-6. Early Stopping:
+  Changes Made (February 5, 2025)
+
+4. Early Stopping:
 
 - Monitor the model's performance on a validation set during training and stop training when the performance starts to degrade.
 
 These approaches may all be used or not, depending on what would best generate the best model. As this is a work in progress and would use several methods that will alter many parts of the original code, each changes to the code would be uploaded in seprate files. 
+
+[![Button1](https://img.shields.io/badge/UPDATES-Regularization%20the%20Model-red)]
+
+```
+# Define and configure the RandomForestRegressor with regularization
+rf_model = RandomForestRegressor(
+    n_estimators=100,  # Keep the number of trees to 100
+    max_depth=10,  # Limit the depth of each tree to prevent overfitting
+    min_samples_split=5,  # Require at least 5 samples to split a node
+    min_samples_leaf=2,  # Ensure at least 2 samples exist in each leaf node
+    max_features='sqrt',  # Limit the number of features considered at each split
+    random_state=42
+```
+- By using max-depth of 10, the decisions trees don't grow too complex and memorize the training data to avoid overfitting.
+- By requiring at least 5 samples to split the node, this avoids splits that result in overly small leaf nodes, improving generalization.
+- By using min_samples_split of 2, this ensures that the tree doesn't get too specific to the training data.
+- By using max_features= 'sqrt', it introduces randomness and helps reduce overfitting by ensuring trees don’t rely too heavily on any particular feature
+
+With this regularization, the model learns from more variables compared to the first training where it focused on one categorical variable. Here's the Feature Importance with the regularization of the RF model. 
+![Image2](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png)
+
