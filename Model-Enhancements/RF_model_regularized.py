@@ -28,8 +28,8 @@ for col in date_columns:
 # Drop original date columns after extracting the month
 data.drop(columns=date_columns, inplace=True)
 
-# Compute the average month for each 'date_sourced_month' and 'date_applied_month' and fill missing values
-month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean()
+# Compute average dates for 'date_applied_month" and to replace missing values
+month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean() #use date_sourced_month to group date_applied_month
 data['date_applied_month'] = data.apply(
     lambda row: month_avg.get(row['date_sourced_month'], 0) if pd.isna(row['date_applied_month']) else row['date_applied_month'],
     axis=1
