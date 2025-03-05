@@ -53,12 +53,14 @@ To address the overfitting, the project intends to do the following approaches:
 
 - Experiment with different hyperparameters to find a simpler model that performs well.
 
-  Changes Made (February 5, 2025)
-
 These approaches may all be used or not, depending on what would best generate the best model. As this is a work in 
 progress and would use several methods that will alter many parts of the original code, each changes to the code would be uploaded in seprate files. 
 
 ![Button1](https://img.shields.io/badge/UPDATES-Regularization%20of%20the%20Model-red)
+
+The {![Button1](https://img.shields.io/badge/Model-Enhancements%20folder-blue)](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/tree/main/Model-Enhancements) was added to include all enhancements that are made and to be made to the RF model. 
+
+This initial update provide a code file that regularized the model.
 
 ```
 # Define and configure the RandomForestRegressor with regularization
