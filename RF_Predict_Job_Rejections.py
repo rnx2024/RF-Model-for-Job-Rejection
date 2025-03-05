@@ -10,12 +10,16 @@ from category_encoders import TargetEncoder
 # Load dataset
 data = pd.read_csv('cleaned_data.csv')
 
+# Drop unnecessary columns 
+columns_to_remove = ['date_rejected', 'technical_test', 'interview', 'applied']
+data.drop(columns=columns_to_remove, inplace=True)
+
 # Display data types
 print(data.dtypes)
 print(data.describe())
 
 # Define date columns
-date_columns = ['date_applied', 'date_rejected', 'applied', 'date_sourced']
+date_columns = ['date_applied', 'date_sourced']
 
 # Convert date strings to datetime objects (explicit format for consistency)
 for col in date_columns:
@@ -28,22 +32,14 @@ for col in date_columns:
 # Drop original date columns after extracting the month
 data.drop(columns=date_columns, inplace=True)
 
-# Drop unwanted features before encoding (including date_rejected_month)
-drop_features = ['technical_test', 'interview', 'applied_month', 'date_rejected_month']
-data.drop(columns=drop_features, inplace=True)
-
-# Ensure 'date_applied_month' is numeric
-data['date_applied_month'] = pd.to_numeric(data['date_applied_month'], errors='coerce')
-
-# Compute the average month for each 'date_sourced_month' and fill missing values
+# Compute the average month for each 'date_sourced_month' and 'date_applied_month' and fill missing values
 month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean()
 data['date_applied_month'] = data.apply(
     lambda row: month_avg.get(row['date_sourced_month'], 0) if pd.isna(row['date_applied_month']) else row['date_applied_month'],
     axis=1
 )
-
 # Separate target variable before encoding
-y = data.pop('rejected')  # Ensure 'rejected' is removed from training data
+y = data.pop('rejected')  # remove 'rejected' from training data
 
 # Identify categorical columns
 categorical_cols = ['company_name', 'position', 'job_description', 'location',
