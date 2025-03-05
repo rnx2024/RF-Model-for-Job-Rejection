@@ -10,10 +10,14 @@ from category_encoders import TargetEncoder
 # Load dataset
 data = pd.read_csv('cleaned_data.csv')
 
-# Define date columns
-date_columns = ['date_applied', 'date_rejected', 'applied', 'date_sourced']
+# Remove unnecessary columns 
+columns_to_remove = ['technical_test', 'interview', 'applied', 'date_rejected']
+data.drop(columns=columns_to_remove, inplace=True)
 
-# Convert date strings to datetime objects (explicit format for consistency)
+# Define date columns
+date_columns = ['date_applied', 'date_sourced']
+
+# Convert date strings to datetime objects 
 for col in date_columns:
     data[col] = pd.to_datetime(data[col], format='%Y-%m-%d', errors='coerce')
 
@@ -24,14 +28,7 @@ for col in date_columns:
 # Drop original date columns after extracting the month
 data.drop(columns=date_columns, inplace=True)
 
-# Drop unwanted features before encoding (including date_rejected_month)
-drop_features = ['technical_test', 'interview', 'applied_month', 'date_rejected_month']
-data.drop(columns=drop_features, inplace=True)
-
-# Ensure 'date_applied_month' is numeric
-data['date_applied_month'] = pd.to_numeric(data['date_applied_month'], errors='coerce')
-
-# Compute the average month for each 'date_sourced_month' and fill missing values
+# Compute the average month for each 'date_sourced_month' and 'date_applied_month' and fill missing values
 month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean()
 data['date_applied_month'] = data.apply(
     lambda row: month_avg.get(row['date_sourced_month'], 0) if pd.isna(row['date_applied_month']) else row['date_applied_month'],
