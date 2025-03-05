@@ -59,7 +59,7 @@ To address the overfitting, the project intends to do the following approaches:
 
 These approaches may all be used or not, depending on what would best generate the best model. As this is a work in progress and would use several methods that will alter many parts of the original code, each changes to the code would be uploaded in seprate files. 
 
-[![Button1](https://img.shields.io/badge/UPDATES-Regularization%20the%20Model-red)]
+[Button1](https://img.shields.io/badge/UPDATES-Regularization%20the%20Model-red)
 
 ```
 # Define and configure the RandomForestRegressor with regularization
