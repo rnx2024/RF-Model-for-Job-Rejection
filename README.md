@@ -60,7 +60,7 @@ progress and would use several methods that will alter many parts of the origina
 
 The [![Button1](https://img.shields.io/badge/Model-Enhancements%20folder-blue)](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/tree/main/Model-Enhancements) was added to include all enhancements that are made and to be made to the RF model. 
 
-This initial update provide a code file that regularized the model.
+This initial update provide a code [file](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/RF_model_regularized.py) that regularized the model.
 
 ```
 # Define and configure the RandomForestRegressor with regularization
