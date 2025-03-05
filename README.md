@@ -53,13 +53,10 @@ To address the overfitting, the project intends to do the following approaches:
 
   Changes Made (February 5, 2025)
 
-4. Early Stopping:
+These approaches may all be used or not, depending on what would best generate the best model. As this is a work in 
+progress and would use several methods that will alter many parts of the original code, each changes to the code would be uploaded in seprate files. 
 
-- Monitor the model's performance on a validation set during training and stop training when the performance starts to degrade.
-
-These approaches may all be used or not, depending on what would best generate the best model. As this is a work in progress and would use several methods that will alter many parts of the original code, each changes to the code would be uploaded in seprate files. 
-
-![Button1](https://img.shields.io/badge/UPDATES-Regularization%20the%20Model-red)
+![Button1](https://img.shields.io/badge/UPDATES-Regularization%20of%20the%20Model-red)
 
 ```
 # Define and configure the RandomForestRegressor with regularization
@@ -77,5 +74,6 @@ rf_model = RandomForestRegressor(
 - By using max_features= 'sqrt', it introduces randomness and helps reduce overfitting by ensuring trees don’t rely too heavily on any particular feature
 
 With this regularization, the model learns from more variables compared to the first training where it focused on one categorical variable. Here's the Feature Importance with the regularization of the RF model. 
+
 ![Image2](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png)
 
