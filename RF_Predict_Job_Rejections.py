@@ -21,7 +21,7 @@ print(data.describe())
 # Define date columns
 date_columns = ['date_applied', 'date_sourced']
 
-# Convert date strings to datetime objects (explicit format for consistency)
+# Convert date strings to datetime objects 
 for col in date_columns:
     data[col] = pd.to_datetime(data[col], format='%Y-%m-%d', errors='coerce')
 
@@ -32,8 +32,8 @@ for col in date_columns:
 # Drop original date columns after extracting the month
 data.drop(columns=date_columns, inplace=True)
 
-# Compute the average month for each 'date_sourced_month' and 'date_applied_month' and fill missing values
-month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean()
+# Compute the average month for 'date_applied_month' and fill missing values
+month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean() #use date_sourced_month to group unique months
 data['date_applied_month'] = data.apply(
     lambda row: month_avg.get(row['date_sourced_month'], 0) if pd.isna(row['date_applied_month']) else row['date_applied_month'],
     axis=1
