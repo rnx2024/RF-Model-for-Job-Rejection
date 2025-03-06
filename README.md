@@ -1,7 +1,12 @@
 ## Predicting Job Rejections using Random Forest Model
 
 This project trains an RF model to predict rejections using a dataset of more than 25K jobs. The data is preprocessed and fed into 
-a Random Forest Regressor model to predict the probability of rejection based on various features.
+a Random Forest Regressor model to predict the probability of rejection based on various features. 
+
+This is to make clear that in training the model no applicant data is used. Without considering applicant-specific details like 
+qualifications, skills, or experience, predictions are far less accurate. It would reduce the process to broad generalizations 
+that don't account for individual merit. As such, this project merely wants to illustrate the process of training RF model with raw 
+data and how to avoid overfitting.
 
 # Features
 
