@@ -90,6 +90,11 @@ rf_model = RandomForestRegressor(
 oob_score = rf_model.oob_score_
 print(f"OOB Score: {oob_score}")
 ```
+
+THe fine-tuned RF model has currently an 
+**OOB Score: 0.9644483217504511**
+which means that it is performing well on unseen data.
+
 With this regularization, the model learns from more variables compared to the first training where it focused on one categorical variable. Here's the Feature Importance with the regularization of the RF model. 
 
 ![Image2](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png)
