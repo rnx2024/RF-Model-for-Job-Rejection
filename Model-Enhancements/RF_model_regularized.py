@@ -66,6 +66,10 @@ rf_model = RandomForestRegressor(
 # Train the model on the training data
 rf_model.fit(X_train, y_train)
 
+# Calculate and print the OOB score 
+oob_score = rf_model.oob_score_
+print(f"OOB Score: {oob_score}")
+
 # Make predictions on the test set
 y_pred = rf_model.predict(X_test)
 
