@@ -5,8 +5,9 @@ a Random Forest Regressor model to predict the probability of rejection based on
 
 This is to make clear that in training the model no applicant data is used. Without considering applicant-specific details like 
 qualifications, skills, or experience, predictions are far less accurate. It would reduce the process to broad generalizations 
-that don't account for individual merit. As such, this project merely wants to illustrate the process of training RF model with raw 
-data and how to avoid overfitting.
+that don't account for individual merit. However, it is still useful in the context of how machine learing model learns from data. That
+while the model may not have used applicant data, it has the ability to learn the primary factors in job rejections. As such, this project 
+merely wants to illustrate the process of training RF model with raw data and how to avoid overfitting.
 
 # Features
 
