@@ -60,7 +60,8 @@ rf_model = RandomForestRegressor(
     min_samples_split=5,  # Require at least 5 samples to split a node
     min_samples_leaf=2,  # Ensure at least 2 samples exist in each leaf node
     max_features='sqrt',  # Limit the number of features considered at each split
-    random_state=42  
+    random_state=42,
+    oob_score=True #Set to true to collect model's accuracy on unseen data (OOB samples)
 )
 
 # Train the model on the training data
