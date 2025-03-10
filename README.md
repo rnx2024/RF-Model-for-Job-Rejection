@@ -76,13 +76,20 @@ rf_model = RandomForestRegressor(
     min_samples_split=5,  # Require at least 5 samples to split a node
     min_samples_leaf=2,  # Ensure at least 2 samples exist in each leaf node
     max_features='sqrt',  # Limit the number of features considered at each split
-    random_state=42
+    random_state=42,
+    oob_score=True
+)
 ```
 - By using max-depth of 10, the decisions trees don't grow too complex and memorize the training data to avoid overfitting.
 - By requiring at least 5 samples to split the node, this avoids splits that result in overly small leaf nodes, improving generalization.
 - By using min_samples_split of 2, this ensures that the tree doesn't get too specific to the training data.
 - By using max_features= 'sqrt', it introduces randomness and helps reduce overfitting by ensuring trees don’t rely too heavily on any particular feature
+- OOB_Score is set to True to use the data for assessing the model's accuracy on the unseen data or OOB samples
 
+```
+oob_score = rf_model.oob_score_
+print(f"OOB Score: {oob_score}")
+```
 With this regularization, the model learns from more variables compared to the first training where it focused on one categorical variable. Here's the Feature Importance with the regularization of the RF model. 
 
 ![Image2](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png)
