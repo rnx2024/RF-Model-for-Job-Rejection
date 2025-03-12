@@ -92,5 +92,5 @@ THe fine-tuned RF model has an
 
 With this regularization, the model learns from more variables compared to the first training. Here's the Feature Importance with the regularization of the RF model. 
 
-![Image2]([https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png])
+![Image2](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png)
 
