@@ -23,7 +23,7 @@ merely wants to illustrate the process of training RF model with raw data and ho
 
   - Uses Random Forest Regressor for prediction.
 
-  - Evaluates the model using Mean Squared Error (MSE).
+  - Evaluates the model using Mean Squared Error (MSE), OOB (Out of Bag) Score and Confusion Matrix
 
   - Displays feature importances.
 
