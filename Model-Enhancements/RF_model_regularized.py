@@ -5,12 +5,17 @@ import seaborn as sns
 import logging
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
+<<<<<<< HEAD
 from sklearn.metrics import mean_squared_error, mean_absolute_error, confusion_matrix
+=======
+from sklearn.metrics import mean_squared_error, confusion_matrix
+>>>>>>> 2bfa1e1eccde5f892f41448175222fad7922d6e0
 from category_encoders import TargetEncoder
 
 # Define log infromation format
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+<<<<<<< HEAD
 def load_dataset(file_path):
     """
     Load the dataset from a CSV file.
@@ -26,6 +31,18 @@ def load_dataset(file_path):
         logging.error(f"Error parsing the file at {file_path}. Please check if the file is properly formatted and retry.")
 
         raise
+=======
+# Remove unnecessary column
+columns_to_remove = ['date_rejected']
+data.drop(columns=columns_to_remove, inplace=True)
+
+# Define date columns
+date_columns = ['date_applied', 'date_sourced']
+
+# Convert date strings to datetime objects 
+for col in date_columns:
+    data[col] = pd.to_datetime(data[col], format='%Y-%m-%d', errors='coerce')
+>>>>>>> 2bfa1e1eccde5f892f41448175222fad7922d6e0
 
 def preprocess_data(data, date_columns, drop_column):
     """
@@ -39,6 +56,7 @@ def preprocess_data(data, date_columns, drop_column):
         data.drop(columns=drop_column, inplace=True)
         logging.info(f"Removed column:{drop_column}.")
 
+<<<<<<< HEAD
         for col in date_columns:
             data[col] = pd.to_datetime(data[col], format='%Y-%m-%d', errors='raise') # Convert to datetime
             logging.info(f"Converted column {col} to datetime.")
@@ -49,6 +67,14 @@ def preprocess_data(data, date_columns, drop_column):
 
         data.drop(columns=date_columns, inplace=True)
         logging.info(f"Dropped original date columns after extracting month: {date_columns}.")
+=======
+# Compute average dates for 'date_applied_month" and to replace missing values
+month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean() #use date_sourced_month to group date_applied_month
+data['date_applied_month'] = data.apply(
+    lambda row: month_avg.get(row['date_sourced_month'], 0) if pd.isna(row['date_applied_month']) else row['date_applied_month'],
+    axis=1
+)
+>>>>>>> 2bfa1e1eccde5f892f41448175222fad7922d6e0
 
         month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean() # Calculate average of 'date_applied_month' for each 'date_sourced_month'
         data['date_applied_month'] = data.apply(
@@ -68,9 +94,15 @@ def preprocess_data(data, date_columns, drop_column):
         logging.error(f"Unexpected error in preprocessing data: {e}.")
         raise
 
+<<<<<<< HEAD
 def encode_features(data, target, categorical_cols):
     """
     Apply target encoding to categorical features.
+=======
+# Identify categorical columns
+categorical_cols = ['company_name', 'position', 'job_description', 'location','technical_test', 'interview', 'applied',
+                    'contract_type', 'language', 'job_location', 'mode_of_application','job_delisted']
+>>>>>>> 2bfa1e1eccde5f892f41448175222fad7922d6e0
 
     Returns:
         pd.DataFrame: Target encoded dataset.
@@ -101,6 +133,7 @@ def train_random_forest(X_train, y_train, **kwargs):
         logging.error(f"Error in training Random Forest model: {e}. Please ensure that the training data is properly formatted and parameters are correctly specified.")
         raise
 
+<<<<<<< HEAD
 def evaluate_model(rf_model, X_test, y_test):
     """
     Evaluate the trained Random Forest model
@@ -110,15 +143,36 @@ def evaluate_model(rf_model, X_test, y_test):
         # Out-of-bag (OOB) score
         oob_score = rf_model.oob_score_
         logging.info(f"OOB Score: {oob_score}")
+=======
+# Define and configure the RandomForestRegressor with regularization
+rf_model = RandomForestRegressor(
+    n_estimators=100,  # Keep the number of trees to 100
+    max_depth=10,  # Limit the depth of each tree to prevent overfitting
+    min_samples_split=5,  # Require at least 5 samples to split a node
+    min_samples_leaf=2,  # Ensure at least 2 samples exist in each leaf node
+    max_features='sqrt',  # Limit the number of features considered at each split
+    random_state=42,
+    oob_score=True #Set to true to collect model's accuracy on unseen data (OOB samples)
+)
+>>>>>>> 2bfa1e1eccde5f892f41448175222fad7922d6e0
 
         # Mean Squared Error
         y_pred = rf_model.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
         logging.info(f'Mean Squared Error with Regularization: {mse}')
 
+<<<<<<< HEAD
         # Mean Absolute Error
         mae = mean_absolute_error(y_test, y_pred)
         logging.info(f'Mean Absolute Error with Regularization: {mae}')
+=======
+# Calculate and print the OOB score 
+oob_score = rf_model.oob_score_
+print(f"OOB Score: {oob_score}")
+
+# Make predictions on the test set
+y_pred = rf_model.predict(X_test)
+>>>>>>> 2bfa1e1eccde5f892f41448175222fad7922d6e0
 
         # Confusion Matrix
         y_test_pred = (y_pred > 0.5).astype(int)
@@ -128,6 +182,7 @@ def evaluate_model(rf_model, X_test, y_test):
         logging.error(f"Error in evaluating the model: {e}. Please ensure the test data is properly formatted and the evaluation metrics are appropriately defined.")
         raise
 
+<<<<<<< HEAD
 def plot_feature_importance(rf_model, X_train):
     """
     Plot feature importances of the  Random Forest model
@@ -138,6 +193,16 @@ def plot_feature_importance(rf_model, X_train):
         feature_names = X_train.columns
         sorted_indices = np.argsort(feature_importances)[::-1]  # sort in descending order
         sorted_features = [(feature_names[i], feature_importances[i]) for i in sorted_indices]
+=======
+# Calculate the confusion matrix
+y_test_pred = (y_pred > 0.5).astype(int)
+cm = confusion_matrix(y_test, y_test_pred)
+print("Confusion Matrix:\n", cm)
+
+# Get feature importance from the trained model
+feature_importances = rf_model.feature_importances_
+feature_names = X_train.columns
+>>>>>>> 2bfa1e1eccde5f892f41448175222fad7922d6e0
 
         logging.info("\nFeature Importances (with Regularization):")
         for feature, importance in sorted_features:
