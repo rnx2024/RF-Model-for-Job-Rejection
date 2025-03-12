@@ -44,28 +44,7 @@ The graph below shows how the RF model played too much focus on one categorical 
 
 ![Image](https://github.com/rnx2024/Job-Rejection-Prediction/blob/main/feature_importance_firstprediction.png)
 
-To address the overfitting, the project intends to do the following approaches: 
-
-1. Regularization:
-
-- Experiment with different regularization parameters to find the optimal balance.
-
-2. Cross-Validation:
-
-- Use k-fold cross-validation to evaluate the model's performance on different subsets of the data.
-
-3. Simplify the Model:
-
-- Reduce the complexity of the model by decreasing the number of estimators or depth of trees in the Random Forest Regressor.
-
-- Experiment with different hyperparameters to find a simpler model that performs well.
-
-These approaches may all be used or not, depending on what would best generate the best model. As this is a work in 
-progress and would use several methods that will alter many parts of the original code, each changes to the code would be uploaded in seprate files. 
-
-![Button1](https://img.shields.io/badge/UPDATES-Regularization%20of%20the%20Model-red)
-
-The [![Button1](https://img.shields.io/badge/Model-Enhancements%20folder-blue)](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/tree/main/Model-Enhancements) was added to include all enhancements that are made and to be made to the RF model. 
+To address the overfitting, the project configured RF model and implement regularization.
 
 This initial update provide a code [file](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/RF_model_regularized.py) that regularized the model.
 
@@ -92,11 +71,15 @@ oob_score = rf_model.oob_score_
 print(f"OOB Score: {oob_score}")
 ```
 
-THe fine-tuned RF model has currently an 
-**OOB Score: 0.9644483217504511**
+Here's the code file for the enhanced model: ![Button1](https://img.shields.io/badge/UPDATED-Regularization%20of%20the%20Model-red)
+
+The [![Button1](https://img.shields.io/badge/Model-Enhancements%20folder-blue)](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/tree/main/Model-Enhancements) was added to include all enhancements that are made and to be made to the RF model. 
+
+THe fine-tuned RF model has an
+**OOB Score *of* 0.9644483217504511**
 which means that it is performing well on unseen data.
 
-With this regularization, the model learns from more variables compared to the first training where it focused on one categorical variable. Here's the Feature Importance with the regularization of the RF model. 
+With this regularization, the model learns from more variables compared to the first training. Here's the Feature Importance with the regularization of the RF model. 
 
 ![Image2](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png)
 
