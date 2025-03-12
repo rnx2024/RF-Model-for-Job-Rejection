@@ -39,7 +39,7 @@ rf_model = RandomForestRegressor(
 
 3. Evaluation Metrics
 
-**OOB Score:** 0.9635058515086417
+- **OOB Score:** 0.9635058515086417
 
 - **Confusion Matrix:** 
 [[3095   39] # True Negatives (39 predicted rejections but actual non-rejections)
