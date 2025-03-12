@@ -78,6 +78,11 @@ y_pred = rf_model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 print(f'Mean Squared Error with Regularization: {mse}')
 
+# Calculate the confusion matrix
+y_test_pred = (y_pred > 0.5).astype(int)
+cm = confusion_matrix(y_test, y_test_pred)
+print("Confusion Matrix:\n", cm)
+
 # Get feature importance from the trained model
 feature_importances = rf_model.feature_importances_
 feature_names = X_train.columns
