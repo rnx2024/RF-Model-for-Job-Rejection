@@ -87,8 +87,6 @@ Confusion Matrix:
  ```
 This means that the model has reliable predictions with minimal errors.
 
-The ![Button1](https://img.shields.io/badge/UPDATED-Regularization%20of%20the%20Model-red) was added to include all enhancements that are made and to be made to the RF model. 
-
 THe fine-tuned RF model has an
 **OOB Score *of* 0.9644483217504511**
 which means that it is performing well on unseen data.
