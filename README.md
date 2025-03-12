@@ -85,10 +85,8 @@ Confusion Matrix:
  [[3095   39] # True Negatives (39 predicted rejections but actual non-rejections)
  [  11 1911]] # False Positives (11 predicted non-rejections but actual rejections)
  ```
-This means that the model has reliable predictions with minimal errors.
-
-THe fine-tuned RF model has an
-**OOB Score: 0.9635058515086417** and a **Mean Squared Error: 0.007783707629690703** which means that it is performing well on unseen data.
+This means that the model has reliable predictions with minimal errors. It also has an
+**OOB Score** of **0.9635058515086417** which means that it is performing well on unseen data. The regularized RF model also has a low **Mean Squared Error** of **0.007783707629690703**. Over-all, the model is doing well.  
 
 With this regularization, the model learns from more variables compared to the first training. Here's the Feature Importance with the regularization of the RF model. 
 
