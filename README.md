@@ -82,16 +82,15 @@ The confusion matrix indicated:
 
 ```
 Confusion Matrix:
- [[3096   38]  # True Negatives (38 predicted rejections but actual non-rejections)
- [   8 1914]]  # False Positives (8 predicted non-rejections but actual rejections)
+ [[3095   39] # True Negatives (39 predicted rejections but actual non-rejections)
+ [  11 1911]] # False Positives (11 predicted non-rejections but actual rejections)
  ```
 This means that the model has reliable predictions with minimal errors.
 
 THe fine-tuned RF model has an
-**OOB Score *of* 0.9644483217504511**
-which means that it is performing well on unseen data.
+**OOB Score: 0.9635058515086417** and a **Mean Squared Error: 0.007783707629690703** which means that it is performing well on unseen data.
 
 With this regularization, the model learns from more variables compared to the first training. Here's the Feature Importance with the regularization of the RF model. 
 
-![Image2](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png)
+![Image2]([https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/feature-importance-regularization.png])
 
