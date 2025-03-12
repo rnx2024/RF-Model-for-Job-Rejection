@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, confusion_matrix, precision_score
+from sklearn.metrics import mean_squared_error, confusion_matrix
 from category_encoders import TargetEncoder
 
 # Load dataset
