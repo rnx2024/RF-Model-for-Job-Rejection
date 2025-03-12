@@ -10,8 +10,8 @@ from category_encoders import TargetEncoder
 # Load dataset
 data = pd.read_csv('cleaned_data.csv')
 
-# Remove unnecessary columns 
-columns_to_remove = ['technical_test', 'interview', 'applied', 'date_rejected']
+# Remove unnecessary column
+columns_to_remove = ['date_rejected']
 data.drop(columns=columns_to_remove, inplace=True)
 
 # Define date columns
@@ -39,9 +39,8 @@ data['date_applied_month'] = data.apply(
 y = data.pop('rejected')  # Ensure 'rejected' is removed from training data
 
 # Identify categorical columns
-categorical_cols = ['company_name', 'position', 'job_description', 'location',
-                    'contract_type', 'language', 'job_location', 'mode_of_application',
-                    'job_delisted']
+categorical_cols = ['company_name', 'position', 'job_description', 'location','technical_test', 'interview', 'applied',
+                    'contract_type', 'language', 'job_location', 'mode_of_application','job_delisted']
 
 # Apply target encoding
 encoder = TargetEncoder(cols=categorical_cols)
