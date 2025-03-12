@@ -2,97 +2,193 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import logging
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, mean_absolute_error, confusion_matrix
 from category_encoders import TargetEncoder
 
-# Load dataset
-data = pd.read_csv('cleaned_data.csv')
+# Define log infromation format
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Define date columns
-date_columns = ['date_applied', 'date_rejected', 'applied', 'date_sourced']
+def load_dataset(file_path):
+    """
+    Load the dataset from a CSV file.
+    """
+    try:
+        data = pd.read_csv(file_path)
+        logging.info(f"Dataset loaded from {file_path}.")
+        return data
+    except FileNotFoundError:
+        logging.error(f"File not found: {file_path}. Please check the file path and retry.")
+        raise
+    except pd.errors.ParserError:
+        logging.error(f"Error parsing the file at {file_path}. Please check if the file is properly formatted and retry.")
 
-# Convert date strings to datetime objects (explicit format for consistency)
-for col in date_columns:
-    data[col] = pd.to_datetime(data[col], format='%Y-%m-%d', errors='coerce')
+        raise
 
-# Extract only the month and fill NaN with 0
-for col in date_columns:
-    data[f'{col}_month'] = data[col].dt.month.fillna(0).astype(int)
+def preprocess_data(data, date_columns, drop_column):
+    """
+    Preprocess the dataset: remove the date_rejected column, convert date strings to datetime objects
+    and extract the month from date columns.
 
-# Drop original date columns after extracting the month
-data.drop(columns=date_columns, inplace=True)
+    Returns:
+        pd.DataFrame: Preprocessed dataset.
+    """
+    try:
+        data.drop(columns=drop_column, inplace=True)
+        logging.info(f"Removed column:{drop_column}.")
 
-# Drop unwanted features before encoding (including date_rejected_month)
-drop_features = ['technical_test', 'interview', 'applied_month', 'date_rejected_month']
-data.drop(columns=drop_features, inplace=True)
+        for col in date_columns:
+            data[col] = pd.to_datetime(data[col], format='%Y-%m-%d', errors='raise') # Convert to datetime
+            logging.info(f"Converted column {col} to datetime.")
 
-# Ensure 'date_applied_month' is numeric
-data['date_applied_month'] = pd.to_numeric(data['date_applied_month'], errors='coerce')
+        for col in date_columns:
+            data[f'{col}_month'] = data[col].dt.month.fillna(0).astype(int) # Extract month
+            logging.info(f"Extracted month from column {col}.")
 
-# Compute the average month for each 'date_sourced_month' and fill missing values
-month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean()
-data['date_applied_month'] = data.apply(
-    lambda row: month_avg.get(row['date_sourced_month'], 0) if pd.isna(row['date_applied_month']) else row['date_applied_month'],
-    axis=1
-)
+        data.drop(columns=date_columns, inplace=True)
+        logging.info(f"Dropped original date columns after extracting month: {date_columns}.")
 
-# Separate target variable before encoding
-y = data.pop('rejected')  # Ensure 'rejected' is removed from training data
+        month_avg = data.groupby('date_sourced_month')['date_applied_month'].mean() # Calculate average of 'date_applied_month' for each 'date_sourced_month'
+        data['date_applied_month'] = data.apply(
+            lambda row: month_avg.get(row['date_sourced_month'], 0) if pd.isna(row['date_applied_month']) else row['date_applied_month'],
+            axis=1
+        )
+        logging.info("Filled missing values in 'date_applied_month' using the average of 'date_sourced_month'.")
+        
+        return data
+    except KeyError as e:
+        logging.error(f"KeyError in preprocessing data: {e}. Ensure the column names are correct.")
+        raise
+    except pd.errors.ParserError as e:
+        logging.error(f"ParserError in preprocessing data: {e}. Check the date format in the dataset.")
+        raise
+    except Exception as e:
+        logging.error(f"Unexpected error in preprocessing data: {e}.")
+        raise
 
-# Identify categorical columns
-categorical_cols = ['company_name', 'position', 'job_description', 'location',
-                    'contract_type', 'language', 'job_location', 'mode_of_application',
-                    'job_delisted']
+def encode_features(data, target, categorical_cols):
+    """
+    Apply target encoding to categorical features.
 
-# Apply target encoding
-encoder = TargetEncoder(cols=categorical_cols)
-X_encoded = encoder.fit_transform(data, y)  # Encoding categorical features
+    Returns:
+        pd.DataFrame: Target encoded dataset.
+    """
+    try:
+        encoder = TargetEncoder(cols=categorical_cols)
+        x_encoded = encoder.fit_transform(data, target)
+        x_encoded.columns = [col + '_encoded' if col in categorical_cols else col for col in x_encoded.columns]
+        logging.info(f"Applied target encoding to columns: {categorical_cols}.")
+        return x_encoded
+    except Exception as e:
+        logging.error(f"Error in encoding features with TargetEncoder: {e}. Please ensure the categorical columns are correct.")
+        raise
 
-# Ensure all features are numeric and handle NaN values
-X_encoded = X_encoded.apply(pd.to_numeric, errors='coerce').fillna(0)
+def train_random_forest(X_train, y_train, **kwargs):
+    """
+    Configure and train the Random Forest model
 
-# Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X_encoded, y, test_size=0.2, random_state=42)
+    Returns:
+        RandomForestRegressor: Trained Random Forest model.
+    """
+    try:
+        rf_model = RandomForestRegressor(random_state=42, oob_score=True, **kwargs)
+        rf_model.fit(X_train, y_train)
+        logging.info("Trained Random Forest model.")
+        return rf_model
+    except Exception as e:
+        logging.error(f"Error in training Random Forest model: {e}. Please ensure that the training data is properly formatted and parameters are correctly specified.")
+        raise
 
-# Define and configure the RandomForestRegressor with regularization
-rf_model = RandomForestRegressor(
-    n_estimators=100,  # Keep the number of trees to 100
-    max_depth=10,  # Limit the depth of each tree to prevent overfitting
-    min_samples_split=5,  # Require at least 5 samples to split a node
-    min_samples_leaf=2,  # Ensure at least 2 samples exist in each leaf node
-    max_features='sqrt',  # Limit the number of features considered at each split
-    random_state=42  
-)
+def evaluate_model(rf_model, X_test, y_test):
+    """
+    Evaluate the trained Random Forest model
+    """
+        
+    try:
+        # Out-of-bag (OOB) score
+        oob_score = rf_model.oob_score_
+        logging.info(f"OOB Score: {oob_score}")
 
-# Train the model on the training data
-rf_model.fit(X_train, y_train)
+        # Mean Squared Error
+        y_pred = rf_model.predict(X_test)
+        mse = mean_squared_error(y_test, y_pred)
+        logging.info(f'Mean Squared Error with Regularization: {mse}')
 
-# Make predictions on the test set
-y_pred = rf_model.predict(X_test)
+        # Mean Absolute Error
+        mae = mean_absolute_error(y_test, y_pred)
+        logging.info(f'Mean Absolute Error with Regularization: {mae}')
 
-# Calculate Mean Squared Error
-mse = mean_squared_error(y_test, y_pred)
-print(f'Mean Squared Error with Regularization: {mse}')
+        # Confusion Matrix
+        y_test_pred = (y_pred > 0.5).astype(int)
+        cm = confusion_matrix(y_test, y_test_pred)
+        logging.info(f"Confusion Matrix:\n{cm}")
+    except Exception as e:
+        logging.error(f"Error in evaluating the model: {e}. Please ensure the test data is properly formatted and the evaluation metrics are appropriately defined.")
+        raise
 
-# Get feature importance from the trained model
-feature_importances = rf_model.feature_importances_
-feature_names = X_train.columns
+def plot_feature_importance(rf_model, X_train):
+    """
+    Plot feature importances of the  Random Forest model
+    """
+    try:
+        # Feature Importance
+        feature_importances = rf_model.feature_importances_
+        feature_names = X_train.columns
+        sorted_indices = np.argsort(feature_importances)[::-1]  # sort in descending order
+        sorted_features = [(feature_names[i], feature_importances[i]) for i in sorted_indices]
 
-# Sort features by importance
-sorted_indices = np.argsort(feature_importances)[::-1]
-sorted_features = [(feature_names[i], feature_importances[i]) for i in sorted_indices]
+        logging.info("\nFeature Importances (with Regularization):")
+        for feature, importance in sorted_features:
+            logging.info(f"{feature}: {importance:.4f}")
 
-# Print feature importance in descending order
-print("\nFeature Importances (with Regularization):")
-for feature, importance in sorted_features:
-    print(f"{feature}: {importance:.4f}")
+        # Plot Feature Importance
+        plt.figure(figsize=(12, 6))
+        sns.barplot(x=[feature[1] for feature in sorted_features], y=[feature[0] for feature in sorted_features])
+        plt.xlabel("Feature Importance Score")
+        plt.ylabel("Features")
+        plt.title("Feature Importance - Random Forest (With Regularization)")
+        plt.show()
+    except Exception as e:
+        logging.error(f"Error in plotting feature importance: {e}. Please verify the feature names,importance scores and ensure the plotting libraries are properly imported.")
+        raise
 
-# Plot feature importance
-plt.figure(figsize=(12, 6))
-sns.barplot(x=[feature[1] for feature in sorted_features], y=[feature[0] for feature in sorted_features])
-plt.xlabel("Feature Importance Score")
-plt.ylabel("Features")
-plt.title("Feature Importance - Random Forest (With Regularization)")
-plt.show()
+def main():
+    # Load dataset
+    data = load_dataset('cleaned_data.csv')
+
+    # Preprocess data
+    date_columns = ['date_applied', 'date_sourced']
+    drop_column = ['date_rejected']
+    data = preprocess_data(data, date_columns, drop_column)
+
+    # Separate target variable before encoding
+    y = data.pop('rejected')
+
+    # Identify categorical columns
+    categorical_cols = ['company_name', 'position', 'job_description', 'location', 'technical_test', 'interview', 'applied',
+                        'contract_type', 'language', 'job_location', 'mode_of_application', 'job_delisted']
+
+    # Encode features
+    x_encoded = encode_features(data, y, categorical_cols)
+
+    # Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(x_encoded, y, test_size=0.2, random_state=42)
+
+    # Configure and train Random Forest model
+    rf_model = train_random_forest(X_train, y_train, 
+        n_estimators=100, 
+        max_depth=10, 
+        min_samples_split=5, 
+        min_samples_leaf=2, 
+        max_features='sqrt')
+
+    # Evaluate model performance
+    evaluate_model(rf_model, X_test, y_test)
+
+    # Plot Feature Importance
+    plot_feature_importance(rf_model, X_train)
+
+if __name__ == "__main__":
+    main()
