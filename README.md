@@ -87,9 +87,7 @@ Confusion Matrix:
  ```
 This means that the model has reliable predictions with minimal errors.
 
-Here's the code file for the enhanced model: ![Button1](https://img.shields.io/badge/UPDATED-Regularization%20of%20the%20Model-red)
-
-The [![Button1](https://img.shields.io/badge/Model-Enhancements%20folder-blue)](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/tree/main/Model-Enhancements) was added to include all enhancements that are made and to be made to the RF model. 
+The ![Button1](https://img.shields.io/badge/UPDATED-Regularization%20of%20the%20Model-red) was added to include all enhancements that are made and to be made to the RF model. 
 
 THe fine-tuned RF model has an
 **OOB Score *of* 0.9644483217504511**
