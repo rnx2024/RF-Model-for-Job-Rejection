@@ -44,9 +44,9 @@ The graph below shows how the RF model played too much focus on one categorical 
 
 ![Image](https://github.com/rnx2024/Job-Rejection-Prediction/blob/main/feature_importance_firstprediction.png)
 
-To address the overfitting, the project configured RF model and implement regularization.
+To address the overfitting, the project configured the RF model and implemented regularization.
 
-This initial update provide a code [file](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/RF_model_regularized.py) that regularized the model.
+This initial update provides a code [file](https://github.com/rnx2024/Predict-Job-Rejection-Using-Random-Forest/blob/main/Model-Enhancements/RF_model_regularized.py) that regularized the model.
 
 ```
 # Define and configure the RandomForestRegressor with regularization
