@@ -41,15 +41,15 @@ rf_model = RandomForestRegressor(
 
 **OOB Score:** 0.9635058515086417
 
-**Confusion Matrix:** 
+- **Confusion Matrix:** 
 [[3095   39] # True Negatives (39 predicted rejections but actual non-rejections)
  [  11 1911]] # False Positives (11 predicted non-rejections but actual rejections)
 
-**MAE:** 0.025653483647198647
+- **MAE:** 0.025653483647198647
 
-**MSE:** 0.007783707629690703
+- **MSE:** 0.007783707629690703
 
-This means that the model has reliable predictions with high accuracy and minimal errors. 
+- This means that the model has reliable predictions with high accuracy and minimal errors. 
 
 4. Plotted Feature Importance 
 
@@ -60,7 +60,7 @@ This means that the model has reliable predictions with high accuracy and minima
 
 1. Clone the repository 
 
-``` git clone https://github.com/rnx2024/Job-Rejection-Prediction```
+``` git clone https://github.com/rnx2024/RF-Model-for-Job-Rejection```
 
 2. Install dependencies using requirements.txt
    
