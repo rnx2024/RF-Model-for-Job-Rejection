@@ -70,6 +70,22 @@ rf_model = RandomForestRegressor(
 oob_score = rf_model.oob_score_
 print(f"OOB Score: {oob_score}")
 ```
+A calculation for the confusion matrix to see a detailed performance of the model with regards to True Negatives and False Positives.
+
+```
+# Calculate the confusion matrix
+y_test_pred = (y_pred > 0.5).astype(int)
+cm = confusion_matrix(y_test, y_test_pred)
+print("Confusion Matrix:\n", cm)
+```
+The confusion matrix indicated: 
+
+```
+Confusion Matrix:
+ [[3096   38]  # True Negatives (38 predicted rejections but actual non-rejections)
+ [   8 1914]]  # False Positives (8 predicted non-rejections but actual rejections)
+ ```
+This means that the model has reliable predictions with minimal errors.
 
 Here's the code file for the enhanced model: ![Button1](https://img.shields.io/badge/UPDATED-Regularization%20of%20the%20Model-red)
 
