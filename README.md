@@ -22,14 +22,15 @@ used applicant data, it can learn from data and make predictions with high accur
 2. Implemented regularization for higher accuracy
 
 ```
-# Define and configure the RandomForestRegressor with regularization
+# Define and configure the RandomForestClassifier with regularization
 rf_model = RandomForestRegressor(
     n_estimators=100,  # Keep the number of trees to 100
     max_depth=10,  # Limit the depth of each tree to prevent overfitting
     min_samples_split=5,  # Require at least 5 samples to split a node
     min_samples_leaf=2,  # Ensure at least 2 samples exist in each leaf node
     max_features='sqrt',  # Limit the number of features considered at each split
-    random_state=42,
+    random_state=42
+    oob_score=True,
 )
 ```
 - By using max-depth of 10, the decisions trees don't grow too complex and memorize the training data to avoid overfitting.
@@ -45,9 +46,10 @@ rf_model = RandomForestRegressor(
 [[3095   39] # True Negatives (39 predicted rejections but actual non-rejections)
  [  11 1911]] # False Positives (11 predicted non-rejections but actual rejections)
 
-- **MAE:** 0.025653483647198647
-
-- **MSE:** 0.007783707629690703
+- **Precision:** 0.98
+- **Recall:** 0.9942767950052029
+- **F1-score:** 0.9870867768595041
+- **ROC-AUC score**: 0.9994095672517259
 
 - This means that the model has reliable predictions with high accuracy and minimal errors. 
 
