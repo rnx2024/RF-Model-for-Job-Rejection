@@ -23,7 +23,7 @@ used applicant data, it can learn from data and make predictions with high accur
 
 ```
 # Define and configure the RandomForestClassifier with regularization
-rf_model = RandomForestRegressor(
+rf_model = RandomForestCLassifier(
     n_estimators=100,  # Keep the number of trees to 100
     max_depth=10,  # Limit the depth of each tree to prevent overfitting
     min_samples_split=5,  # Require at least 5 samples to split a node
