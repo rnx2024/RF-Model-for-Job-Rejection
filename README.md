@@ -10,7 +10,7 @@ used applicant data, it can learn from data and make predictions with high accur
 
 ### Main Features 
 
-1. Data Preprocessing:
+**1. Data Preprocessing:**
 
   - Converts date columns to datetime objects and extracts the month.
 
@@ -19,7 +19,7 @@ used applicant data, it can learn from data and make predictions with high accur
   - Handles missing values and ensures all features are numeric.
 
 
-2. Implemented regularization for higher accuracy
+**2. Implemented regularization for higher accuracy**
 
 ```
 # Define and configure the RandomForestClassifier with regularization
@@ -38,22 +38,22 @@ rf_model = RandomForestRegressor(
 - By using min_samples_split of 2, this ensures that the tree doesn't get too specific to the training data.
 - By using max_features= 'sqrt', it introduces randomness and helps reduce overfitting by ensuring trees don’t rely too heavily on any particular feature
 
-3. Evaluation Metrics
+**3. Evaluation Metrics**
 
-- **OOB Score:** 0.9635058515086417
+- **OOB Score:** 0.9635058515086417 (This evaluates the RF model's ability to predict unseen data during training by using the Out-of-Bag samples)
 
 - **Confusion Matrix:** 
 [[3095   39] # True Negatives (39 predicted rejections but actual non-rejections)
  [  11 1911]] # False Positives (11 predicted non-rejections but actual rejections)
 
-- **Precision:** 0.98
-- **Recall:** 0.9942767950052029
-- **F1-score:** 0.9870867768595041
-- **ROC-AUC score**: 0.9994095672517259
+- **Recall:** 0.9942767950052029 (This is the model's ability to identify actual rejections) 
+- **Precision:** 0.98 (How well it avoids false positives)
+- **F1-score:** 0.9870867768595041 (This is to check the balance between the false negatives and false positives)
+- **ROC-AUC score**: 0.9994095672517259 (Guage the model's efficiency in differentiating rejected and not rejected)
 
-- This means that the model has reliable predictions with high accuracy and minimal errors. 
+With the evalution results, the model shows that it has reliable predictions with high accuracy and minimal errors. 
 
-4. Plotted Feature Importance 
+**4. Plotted Feature Importance**
 
 ![Image1](https://github.com/rnx2024/RF-Model-for-Job-Rejection/blob/main/feature-importance.png)
 
